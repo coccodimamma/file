@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pizza Margherita 🍕</title>
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: system-ui, sans-serif;
+    }
+    .price {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: #e63946;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+<a-scene embedded>
+  
+  <!-- Camera orbitale -->
+  <a-entity id="cameraRig" position="0 1.5 3">
+    <a-camera orbit-controls="target: 0 0 0; enableDamping: true; dampingFactor: 0.125;"></a-camera>
+  </a-entity>
+
+  <!-- Luci -->
+  <a-entity light="type: directional; intensity: 0.8" position="1 3 2"></a-entity>
+  <a-entity light="type: ambient; intensity: 0.5"></a-entity>
+
+  <!-- Modello pizza -->
+  <a-entity 
+    id="pizza"
+    gltf-model="https://cdn.jsdelivr.net/gh/coccodimamma/skybox@main/pizza.glb"
+    position="0 0 0"
+    scale="1 1 1"
+    rotation="0 0 0"
+    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
+  </a-entity>
+
+</a-scene>
+
+<div class="price">€7,00</div>
+
+<script>
+  const scene = document.querySelector('a-scene');
+
+  // URL jsDelivr delle 6 facce della cubemap
+  const urls = [
+    'https://cdn.jsdelivr.net/gh/coccodimamma/file@main/posx.png',
+    'https://cdn.jsdelivr.net/gh/coccodimamma/file@main/negx.png',
+    'https://cdn.jsdelivr.net/gh/coccodimamma/file@main/posy.png',
+    'https://cdn.jsdelivr.net/gh/coccodimamma/file@main/negy.png',
+    'https://cdn.jsdelivr.net/gh/coccodimamma/file@main/posz.png',
+    'https://cdn.jsdelivr.net/gh/coccodimamma/file@main/negz.png'
+  ];
+
+  // Carica la cubemap e applicala come sfondo
+  const loader = new THREE.CubeTextureLoader();
+  loader.setCrossOrigin('anonymous');
+  const cubeTexture = loader.load(urls, () => {
+    scene.object3D.background = cubeTexture;
+  });
+</script>
+
+</body>
+</html>
